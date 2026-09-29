@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Configuration</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="config-page">
+    <form id="config-form" class="config-form">
+      <h1>Image du panneau</h1>
+      <p class="hint">
+        Affiche une image récupérée depuis une URL au lieu d'un fichier
+        uploadé — elle se met à jour automatiquement à chaque changement
+        côté source, sans avoir à reconfigurer l'extension.
+      </p>
+
+      <label for="imageUrl">URL de l'image</label>
+      <input
+        type="url"
+        id="imageUrl"
+        name="imageUrl"
+        placeholder="https://exemple.com/image.png"
+        required
+      />
+
+      <label for="linkUrl">URL de clic (optionnel)</label>
+      <input type="url" id="linkUrl" name="linkUrl" placeholder="https://exemple.com" />
+
+      <img id="preview" class="preview" alt="Aperçu" style="display: none" />
+
+      <button type="submit">Enregistrer</button>
+      <p id="status" class="status" role="status"></p>
+    </form>
+
+    <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    <script src="js/config.js"></script>
+  </body>
+</html>

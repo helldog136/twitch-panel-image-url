@@ -1,0 +1,126 @@
+:root {
+  color-scheme: dark;
+  --bg: #0e0e10;
+  --text: #efeff1;
+  --muted: #adadb8;
+  --accent: #9147ff;
+  --border: #3a3a3d;
+  --field-bg: #18181b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* --- panel.html : vue spectateur --- */
+
+.panel-page {
+  min-height: 100vh;
+}
+
+.panel-link {
+  display: block;
+  width: 100%;
+}
+
+.panel-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.empty-state {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* --- config.html : vue broadcaster --- */
+
+.config-page {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.config-form {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.config-form h1 {
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.config-form label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.config-form input {
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.config-form input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.preview {
+  margin-top: 12px;
+  max-width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.config-form button {
+  margin-top: 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.config-form button:hover {
+  opacity: 0.9;
+}
+
+.status {
+  min-height: 16px;
+  font-size: 13px;
+  color: var(--accent);
+  margin: 8px 0 0;
+}
