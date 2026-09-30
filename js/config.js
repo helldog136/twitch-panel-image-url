@@ -7,10 +7,15 @@
   var preview = document.getElementById("preview");
   var status = document.getElementById("status");
 
+  // Same proxy as js/panel.js — the config screen's live preview is also
+  // subject to Twitch's fixed image-domain whitelist, so it must load
+  // through it too. See the comment in panel.js for the full rationale.
+  var IMAGE_PROXY = "https://helldog136.be/api/image-proxy";
+
   function updatePreview() {
     var url = imageUrlInput.value.trim();
     if (url) {
-      preview.src = url;
+      preview.src = IMAGE_PROXY + "?url=" + encodeURIComponent(url);
       preview.style.display = "block";
     } else {
       preview.style.display = "none";
