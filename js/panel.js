@@ -15,22 +15,38 @@
 
   var link = document.getElementById("panel-link");
   var img = document.getElementById("panel-image");
+  var caption = document.getElementById("panel-caption");
   var emptyState = document.getElementById("empty-state");
 
   var config = null;
   var refreshTimer = null;
 
+  function hostnameOf(url) {
+    try {
+      return new URL(url).hostname;
+    } catch (e) {
+      return url;
+    }
+  }
+
   function applyConfig() {
     if (!config || !config.imageUrl) {
       img.style.display = "none";
       link.style.display = "none";
+      caption.style.display = "none";
       emptyState.style.display = "flex";
       return;
     }
     emptyState.style.display = "none";
-    link.href = config.linkUrl || config.imageUrl;
+    var href = config.linkUrl || config.imageUrl;
+    link.href = href;
     link.style.display = "block";
     img.style.display = "block";
+    // Twitch review requirement (policy 4.4): since the destination is a
+    // freeform broadcaster-provided URL, viewers must see where it leads
+    // before clicking — a bare clickable image isn't enough.
+    caption.textContent = "↗ " + hostnameOf(href);
+    caption.style.display = "block";
     refreshImage();
   }
 
