@@ -12,6 +12,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family:
@@ -21,27 +26,35 @@ body {
 }
 
 /* --- panel.html : vue spectateur --- */
+/* Twitch gives a panel a fixed pixel height (up to 500px) but no control
+   over its width, so a tall image scaled to 100% width could either
+   overflow (cropped by Twitch, no scrollbar) or leave empty space. Filling
+   the whole box with object-fit: contain uses all the height Twitch grants
+   while always keeping the full image visible (letterboxed if the aspect
+   ratios don't match, never cropped). */
 
 .panel-page {
-  min-height: 100vh;
+  height: 100%;
 }
 
 .panel-link {
   display: block;
   width: 100%;
+  height: 100%;
 }
 
 .panel-image {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
 }
 
 .empty-state {
   display: none;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100%;
   padding: 16px;
   text-align: center;
   color: var(--muted);
