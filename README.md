@@ -1,65 +1,64 @@
-# Panel : image + lien depuis une URL
+# Dynamic Image from URL
 
-Extension Twitch (type **Panel**) générique : au lieu d'uploader une image
-fixe dans un panneau, elle affiche une image récupérée depuis une URL que tu
-choisis, rafraîchie automatiquement — utile pour tout ce qui change
-régulièrement (planning, stats, annonce du jour…) sans avoir à retélécharger
-une image à chaque fois. Un clic sur l'image ouvre une URL elle aussi
-configurable.
+A generic Twitch **Panel** extension: instead of uploading a fixed image to
+a panel, it displays an image fetched from a URL you choose, refreshed
+automatically — useful for anything that changes regularly (a schedule,
+stats, a daily announcement...) without ever having to re-upload an image.
+Clicking the image opens a configurable URL too.
 
-Pas de backend : la configuration (URL image + URL de clic) est stockée par
-Twitch lui-même via son [Configuration
+No backend: the configuration (image URL + click-through URL) is stored by
+Twitch itself via its [Configuration
 Service](https://dev.twitch.tv/docs/extensions/building/#configuration-service),
-lue directement depuis le panneau — aucune donnée par-spectateur, aucun
-serveur à nous.
+read directly from the panel — no per-viewer data, no server of our own.
 
-## Configurer sur sa chaîne
+## Configuring it on your channel
 
-Une fois l'extension installée et activée sur ta chaîne, clique
-« Configurer » depuis le tableau de bord Twitch (Extensions), puis
-renseigne :
+Once the extension is installed and activated on your channel, click
+"Configure" from the Twitch dashboard (Extensions), then fill in:
 
-- **URL de l'image** : doit être accessible publiquement, sans
-  authentification, en HTTPS.
-- **URL de clic** (optionnel) : où envoyer le spectateur qui clique sur
-  l'image.
+- **Image URL**: must be publicly reachable, no authentication required, HTTPS.
+- **Click-through URL** (optional): where a viewer is sent when they click the image.
 
-## Développer / tester
+## Developing / testing
 
-Fichiers statiques, pas de build :
+Static files, no build step:
 
-- `config.html` / `js/config.js` — écran de configuration (broadcaster).
-- `panel.html` / `js/panel.js` — panneau vu par les spectateurs.
-- `css/style.css` — styles partagés.
+- `config.html` / `js/config.js` — configuration screen (broadcaster).
+- `panel.html` / `js/panel.js` — panel shown to viewers.
+- `css/style.css` — shared styles.
 
-Le SDK Twitch (`window.Twitch.ext`) n'existe que dans un vrai contexte
-Twitch (chaîne réelle) ou simulé par le [Developer
-Rig](https://dev.twitch.tv/docs/extensions/rig/) — ouvrir les fichiers HTML
-directement dans un navigateur classique permet de vérifier la mise en page
-(les deux scripts détectent l'absence de `window.Twitch` et n'appellent pas
-le SDK) mais pas le round-trip de configuration réel.
+The Twitch SDK (`window.Twitch.ext`) only exists in a real Twitch context
+(a live channel) or simulated by the [Developer
+Rig](https://dev.twitch.tv/docs/extensions/rig/) — opening the HTML files
+directly in a plain browser lets you check the layout (both scripts detect
+a missing `window.Twitch` and skip calling the SDK) but not the real
+configuration round-trip.
 
-### Avec le Developer Rig
+### With the Developer Rig
 
-1. [Créer l'extension](https://dev.twitch.tv/console/extensions/create)
-   dans la Developer Console Twitch (type **Panel**).
-2. Créer un projet dans le Developer Rig avec ce Client ID, pointer la
-   « Config URL » et la « Panel URL » vers ce dossier servi en local (ex.
+1. [Create the extension](https://dev.twitch.tv/console/extensions/create)
+   in the Twitch Developer Console (type **Panel**).
+2. Create a project in the Developer Rig with that Client ID, point the
+   "Config URL" and "Panel URL" at this folder served locally (e.g.
    `npx serve .`).
-3. Tester le formulaire de configuration puis vérifier que le panneau
-   reflète bien l'image + le lien enregistrés, y compris après un
-   changement (`configuration.onChanged`).
+3. Test the configuration form, then check the panel reflects the saved
+   image + link, including after a change (`configuration.onChanged`).
 
-### Publier
+### Publishing
 
-1. Zipper le contenu du dépôt (`config.html`, `panel.html`, `css/`, `js/` —
-   pas `.git`, `README.md`/`LICENSE` ne sont pas nécessaires non plus).
-2. Uploader le zip via la Developer Console (Asset Hosting), créer une
-   version, l'activer en Hosted Test puis en Live une fois vérifiée.
-3. Twitch héberge lui-même les fichiers une fois uploadés — ce dépôt n'a pas
-   de déploiement automatisé, seulement la publication manuelle décrite
-   ci-dessus.
+1. Package the release into a zip: `python package.py <version>` (e.g.
+   `python package.py 0.0.1`) — writes `twitch-extension-<version>.zip`.
+   **Don't** zip it by hand with PowerShell's `Compress-Archive`: on
+   Windows it stores nested-folder entries with backslashes
+   (`css\style.css`), which Twitch's asset hosting can't resolve against
+   the forward-slash paths used in `<link>`/`<script>` — the CSS and JS
+   silently fail to load with no visible error. `package.py` always writes
+   forward-slash paths.
+2. Upload the zip via the Developer Console (Files tab), create a version,
+   activate it as Hosted Test then Live once verified.
+3. Twitch hosts the files itself once uploaded — this repo has no
+   automated deployment, only the manual publishing steps above.
 
-## Licence
+## License
 
-MIT — voir [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).

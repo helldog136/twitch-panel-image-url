@@ -19,9 +19,9 @@
 
   imageUrlInput.addEventListener("input", updatePreview);
 
-  // Hors contexte Twitch (test local sans Rig), window.Twitch reste
-  // indéfini : on n'appelle onAuthorized/set que s'il existe, pour ne pas
-  // planter l'aperçu visuel local.
+  // Outside a Twitch context (local test without the Rig), window.Twitch
+  // stays undefined: only call onAuthorized/set when it exists, so the
+  // local visual preview never crashes.
   if (window.Twitch && window.Twitch.ext) {
     window.Twitch.ext.onAuthorized(function () {
       var existing = window.Twitch.ext.configuration.broadcaster;
@@ -32,8 +32,8 @@
           linkUrlInput.value = data.linkUrl || "";
           updatePreview();
         } catch (e) {
-          // Config existante illisible : on repart d'un formulaire vide
-          // plutôt que de planter l'écran de configuration.
+          // Existing config unreadable: start from a blank form instead of
+          // crashing the configuration screen.
         }
       }
     });
@@ -45,17 +45,17 @@
     var linkUrl = linkUrlInput.value.trim();
 
     if (!imageUrl) {
-      status.textContent = "L'URL de l'image est obligatoire.";
+      status.textContent = "Image URL is required.";
       return;
     }
 
     if (!window.Twitch || !window.Twitch.ext) {
-      status.textContent = "SDK Twitch indisponible (test hors contexte Twitch).";
+      status.textContent = "Twitch SDK unavailable (testing outside a Twitch context).";
       return;
     }
 
     var content = JSON.stringify({ imageUrl: imageUrl, linkUrl: linkUrl });
     window.Twitch.ext.configuration.set("broadcaster", "1", content);
-    status.textContent = "Enregistré.";
+    status.textContent = "Saved.";
   });
 })();

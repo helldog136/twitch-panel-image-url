@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var REFRESH_MS = 5 * 60 * 1000; // 5 min — assez pour ne pas spammer l'hébergeur de l'image, assez court pour rester "automatique"
+  var REFRESH_MS = 5 * 60 * 1000; // 5 min — long enough not to hammer the image host, short enough to still feel "live"
 
   var link = document.getElementById("panel-link");
   var img = document.getElementById("panel-image");
@@ -26,9 +26,9 @@
 
   function refreshImage() {
     if (!config || !config.imageUrl) return;
-    // Cache-busting : l'image source change de contenu sans changer d'URL
-    // (ex. le planning de la semaine), un navigateur pourrait autrement
-    // garder l'ancienne version en cache plus longtemps que voulu.
+    // Cache-busting: the source image's content can change without its URL
+    // changing (e.g. a weekly schedule image) — without this, a browser
+    // could keep showing a stale cached copy longer than intended.
     var separator = config.imageUrl.indexOf("?") === -1 ? "?" : "&";
     img.src = config.imageUrl + separator + "t=" + Date.now();
   }
@@ -59,16 +59,16 @@
       }
     });
     window.Twitch.ext.configuration.onChanged(readConfig);
-    // Secours : si l'autorisation Twitch ne survient jamais (test local
-    // hors Rig, ou script chargé sans être réellement dans l'iframe
-    // Twitch), on affiche quand même l'état "non configuré" plutôt qu'une
-    // page vide indéfiniment. Sans effet visible en conditions réelles,
-    // où onAuthorized arrive en général en moins d'une seconde.
+    // Fallback: if Twitch authorization never fires (local test without
+    // the Rig, or the script loaded outside a real Twitch iframe), show
+    // the "not configured" state instead of a blank page forever. No
+    // visible effect in real conditions, where onAuthorized usually fires
+    // in under a second.
     setTimeout(function () {
       if (!authorized) applyConfig();
     }, 3000);
   } else {
-    // Hors contexte Twitch (test local sans le SDK) : état vide, pas de crash.
+    // Outside a Twitch context (local test without the SDK): empty state, no crash.
     applyConfig();
   }
 })();

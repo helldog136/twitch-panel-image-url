@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,28 +8,28 @@
   </head>
   <body class="config-page">
     <form id="config-form" class="config-form">
-      <h1>Image du panneau</h1>
+      <h1>Panel image</h1>
       <p class="hint">
-        Affiche une image récupérée depuis une URL au lieu d'un fichier
-        uploadé — elle se met à jour automatiquement à chaque changement
-        côté source, sans avoir à reconfigurer l'extension.
+        Displays an image fetched from a URL instead of an uploaded file —
+        it updates automatically whenever the source changes, with no need
+        to reconfigure the extension.
       </p>
 
-      <label for="imageUrl">URL de l'image</label>
+      <label for="imageUrl">Image URL</label>
       <input
         type="url"
         id="imageUrl"
         name="imageUrl"
-        placeholder="https://exemple.com/image.png"
+        placeholder="https://example.com/image.png"
         required
       />
 
-      <label for="linkUrl">URL de clic (optionnel)</label>
-      <input type="url" id="linkUrl" name="linkUrl" placeholder="https://exemple.com" />
+      <label for="linkUrl">Click-through URL (optional)</label>
+      <input type="url" id="linkUrl" name="linkUrl" placeholder="https://example.com" />
 
-      <img id="preview" class="preview" alt="Aperçu" style="display: none" />
+      <img id="preview" class="preview" alt="Preview" style="display: none" />
 
-      <button type="submit">Enregistrer</button>
+      <button type="submit">Save</button>
       <p id="status" class="status" role="status"></p>
     </form>
 
